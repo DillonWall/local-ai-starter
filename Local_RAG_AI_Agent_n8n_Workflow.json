@@ -13,7 +13,7 @@
       ],
       "credentials": {
         "postgres": {
-          "id": "iN7fO2CgatVwq73z",
+          "id": "Z4ZbpSli6ux0a8FB",
           "name": "Postgres account"
         }
       }
@@ -33,7 +33,7 @@
       ],
       "credentials": {
         "ollamaApi": {
-          "id": "eOwAotC7AUgJlvHM",
+          "id": "OfLtiT4LFNddtUSg",
           "name": "Ollama account"
         }
       }
@@ -53,7 +53,7 @@
       ],
       "credentials": {
         "ollamaApi": {
-          "id": "eOwAotC7AUgJlvHM",
+          "id": "OfLtiT4LFNddtUSg",
           "name": "Ollama account"
         }
       }
@@ -86,7 +86,7 @@
       ],
       "credentials": {
         "ollamaApi": {
-          "id": "eOwAotC7AUgJlvHM",
+          "id": "OfLtiT4LFNddtUSg",
           "name": "Ollama account"
         }
       }
@@ -103,10 +103,10 @@
         "triggerOn": "specificFolder",
         "folderToWatch": {
           "__rl": true,
-          "value": "1914m3M7kRzkd5RJqAfzRY9EBcJrKemZC",
+          "value": "1Dz4cB98fy_eR0ZZKr2aMv-pH_bXk8-Ki",
           "mode": "list",
-          "cachedResultName": "Meeting Notes",
-          "cachedResultUrl": "https://drive.google.com/drive/folders/1914m3M7kRzkd5RJqAfzRY9EBcJrKemZC"
+          "cachedResultName": "AI RAG Files",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1Dz4cB98fy_eR0ZZKr2aMv-pH_bXk8-Ki"
         },
         "event": "fileCreated",
         "options": {}
@@ -121,7 +121,7 @@
       ],
       "credentials": {
         "googleDriveOAuth2Api": {
-          "id": "vzcL2pD7uQzqDpdK",
+          "id": "4Yz8xkalRjwAr5rX",
           "name": "Google Drive account"
         }
       }
@@ -138,10 +138,10 @@
         "triggerOn": "specificFolder",
         "folderToWatch": {
           "__rl": true,
-          "value": "1914m3M7kRzkd5RJqAfzRY9EBcJrKemZC",
+          "value": "1Dz4cB98fy_eR0ZZKr2aMv-pH_bXk8-Ki",
           "mode": "list",
-          "cachedResultName": "Meeting Notes",
-          "cachedResultUrl": "https://drive.google.com/drive/folders/1914m3M7kRzkd5RJqAfzRY9EBcJrKemZC"
+          "cachedResultName": "AI RAG Files",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1Dz4cB98fy_eR0ZZKr2aMv-pH_bXk8-Ki"
         },
         "event": "fileUpdated",
         "options": {}
@@ -156,7 +156,7 @@
       ],
       "credentials": {
         "googleDriveOAuth2Api": {
-          "id": "vzcL2pD7uQzqDpdK",
+          "id": "4Yz8xkalRjwAr5rX",
           "name": "Google Drive account"
         }
       }
@@ -217,7 +217,7 @@
       "executeOnce": true,
       "credentials": {
         "googleDriveOAuth2Api": {
-          "id": "vzcL2pD7uQzqDpdK",
+          "id": "4Yz8xkalRjwAr5rX",
           "name": "Google Drive account"
         }
       }
@@ -291,7 +291,7 @@
       ],
       "credentials": {
         "ollamaApi": {
-          "id": "eOwAotC7AUgJlvHM",
+          "id": "OfLtiT4LFNddtUSg",
           "name": "Ollama account"
         }
       }
@@ -377,7 +377,7 @@
       ],
       "credentials": {
         "qdrantApi": {
-          "id": "VOnegFP8eijBkbNO",
+          "id": "croVJUNRZ2M43kD0",
           "name": "QdrantApi account"
         }
       }
@@ -386,7 +386,7 @@
       "parameters": {
         "code": {
           "execute": {
-            "code": "const { QdrantVectorStore } = require(\"@langchain/qdrant\");\nconst { OllamaEmbeddings } = require(\"@langchain/community/embeddings/ollama\");\n\nconst embeddings = new OllamaEmbeddings({\n  model: \"nomic-embed-text\",\n  baseUrl: \"http://ollama:11434\"\n});\n\nconst vectorStore = await QdrantVectorStore.fromExistingCollection(\n  embeddings,\n  {\n    url: \"http://qdrant:6333\",\n    collectionName: \"documents\",\n  }\n);\n\nconst fileIdToDelete = this.getInputData()[0].json.file_id;\n\nconst filter = {\n        must: [\n            {\n                key: \"metadata.file_id\",\n                match: {\n                    value: fileIdToDelete,\n                },\n            },\n        ],\n    }\n\n// const results = await vectorStore.similaritySearch(\"this\", 10, filter);\n// const idsToDelete = results.map((doc) => doc.id);\n\n// NOT IMPLEMENTED!\n// await vectorStore.delete({ ids: idsToDelete });\n\nvectorStore.client.delete(\"documents\", {\n  filter\n});\n\nreturn [ {json: { file_id: fileIdToDelete } } ];\n"
+            "code": "const { QdrantVectorStore } = require(\"@langchain/qdrant\");\nconst { OllamaEmbeddings } = require(\"@langchain/community/embeddings/ollama\");\n\nconst embeddings = new OllamaEmbeddings({\n  model: \"nomic-embed-text\",\n  baseUrl: \"http://host.docker.internal:11434\"\n});\n\nconst vectorStore = await QdrantVectorStore.fromExistingCollection(\n  embeddings,\n  {\n    url: \"http://host.docker.internal:6333\",\n    collectionName: \"documents\",\n  }\n);\n\nconst fileIdToDelete = this.getInputData()[0].json.file_id;\n\nconst filter = {\n        must: [\n            {\n                key: \"metadata.file_id\",\n                match: {\n                    value: fileIdToDelete,\n                },\n            },\n        ],\n    }\n\n// const results = await vectorStore.similaritySearch(\"this\", 10, filter);\n// const idsToDelete = results.map((doc) => doc.id);\n\n// NOT IMPLEMENTED!\n// await vectorStore.delete({ ids: idsToDelete });\n\nvectorStore.client.delete(\"documents\", {\n  filter\n});\n\nreturn [ {json: { file_id: fileIdToDelete } } ];\n"
           }
         },
         "inputs": {
@@ -436,7 +436,7 @@
       ],
       "credentials": {
         "qdrantApi": {
-          "id": "VOnegFP8eijBkbNO",
+          "id": "croVJUNRZ2M43kD0",
           "name": "QdrantApi account"
         }
       }
@@ -726,14 +726,14 @@
       ]
     }
   },
-  "active": true,
+  "active": false,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "19f9691c-4682-4704-81f2-33fdec9d0be2",
+  "versionId": "8564b45b-f3e2-4fb5-b073-bec7527596ff",
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "f722e3e1e81e942a38faa434ad0aee8699371bbff9f883b9d5c59a7c726605af"
+    "instanceId": "f81fbb4c36d9c90e7a5e0361f812f41365536654903cc2e18d3d23e51b04eee0"
   },
   "id": "vTN9y2dLXqTiDfPT",
   "tags": []
