@@ -44,7 +44,7 @@ x-init-ollama: &init-ollama
   entrypoint: /bin/sh
   command:
     - "-c"
-    - "sleep 3; OLLAMA_HOST=ollama:11434 ollama pull nomic-embed-text; OLLAMA_HOST=ollama:11434 ollama pull deepseek-r1:8b"
+    - "sleep 3; OLLAMA_HOST=ollama:11434 ollama pull nomic-embed-text; OLLAMA_HOST=ollama:11434 ollama pull deepseek-r1:8b; OLLAMA_HOST=ollama:11434 ollama pull llama3.1:8b"
 
 services:
   flowise:
